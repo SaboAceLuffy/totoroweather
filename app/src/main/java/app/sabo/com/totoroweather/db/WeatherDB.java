@@ -86,10 +86,10 @@ public class WeatherDB {
     public void saveCounty(County county){
         if (county != null) {
             ContentValues values = new ContentValues();
-            values.put("County_name",county.getCountyName());
-            values.put("County_code",county.getCountyCode());
+            values.put("county_name",county.getCountyName());
+            values.put("county_code",county.getCountyCode());
             values.put("city_id",county.getCityId());
-            db.insert("City",null,values);
+            db.insert("County",null,values);
         }
     }
 
@@ -103,8 +103,8 @@ public class WeatherDB {
             while (cursor.moveToNext()){
                 Province province = new Province();
                 province.setId(cursor.getInt(cursor.getColumnIndex("id")));
-                province.setProvinceName(cursor.getString(cursor.getColumnIndex("provinceName")));
-                province.setProvinceCode(cursor.getString(cursor.getColumnIndex("provinceCode")));
+                province.setProvinceName(cursor.getString(cursor.getColumnIndex("province_name")));
+                province.setProvinceCode(cursor.getString(cursor.getColumnIndex("province_code")));
                 list.add(province);
             }
 
@@ -117,7 +117,7 @@ public class WeatherDB {
      * 从数据库中获取某个省份下所有的城市信息
      */
 
-    public List<City> loadCity(int provinceId){
+    public List<City> loadCities(int provinceId){
         List<City> list = new ArrayList<City>();
         Cursor cursor = db.query("City",null,"province_id = ?",new String[]{String.valueOf(provinceId)},null,null,null);
         if (cursor.moveToFirst()){
@@ -137,7 +137,7 @@ public class WeatherDB {
     /**
      *获取某个城市下所有的县的信息
      */
-    public List<County> loadCounty(int cityId){
+    public List<County> loadCounties(int cityId){
         List<County> list = new ArrayList<County>();
         Cursor cursor = db.query("County",null,"city_id = ?",new String[]{String.valueOf(cityId)},null,null,null);
         if (cursor.moveToFirst()){
